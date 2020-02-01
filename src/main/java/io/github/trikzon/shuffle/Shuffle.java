@@ -26,6 +26,7 @@ import net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry;
 import net.fabricmc.fabric.api.event.client.ClientTickCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.*;
@@ -100,13 +101,13 @@ public class Shuffle implements ClientModInitializer
             if (player.isSpectator()) return ActionResult.PASS;
 
             Item itemInHand = player.getStackInHand(hand).getItem();
-            if (Block.getBlockFromItem(itemInHand) != null && itemInHand != Items.AIR)
+            if (Block.getBlockFromItem(itemInHand) != Blocks.AIR && itemInHand != Items.AIR)
             {
                 ArrayList<Integer> slotsWithBlocks = new ArrayList<>();
                 for (int i = 0; i < 8; i++)
                 {
                     Item item = player.inventory.main.get(i).getItem();
-                    if (Block.getBlockFromItem(item) != null && item != Items.AIR)
+                    if (Block.getBlockFromItem(item) != Blocks.AIR && item != Items.AIR)
                     {
                         slotsWithBlocks.add(i);
                     }
