@@ -104,7 +104,7 @@ public class Shuffle implements ClientModInitializer
             if (Block.getBlockFromItem(itemInHand) != Blocks.AIR && itemInHand != Items.AIR)
             {
                 ArrayList<Integer> slotsWithBlocks = new ArrayList<>();
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i <= 8; i++)
                 {
                     Item item = player.inventory.main.get(i).getItem();
                     if (Block.getBlockFromItem(item) != Blocks.AIR && item != Items.AIR)
