@@ -15,7 +15,7 @@
  *
  * File: Config.java
  * Date: 2020-02-01
- * Revision:
+ * Revision: 2020-02-03 1.15.2-1.0.1 Bug Fix: 9th slot can now be shuffled to
  * Author: Trikzon
  * =========================================================================== */
 package io.github.trikzon.shuffle;
