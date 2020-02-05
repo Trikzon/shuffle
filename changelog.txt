@@ -1,0 +1,9 @@
+1.15.2-1.1.0
+    Ported to forge! (Same .jar for both)
+    Note: fabric requires Fabric API
+
+1.15.2-1.0.1
+    Bug Fix: 9th slot can now be shuffled to
+
+1.15.2-1.0.0
+    Initial Release

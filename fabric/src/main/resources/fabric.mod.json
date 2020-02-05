@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "shuffle",
+  "version": "${version}",
+
+  "name": "Shuffle",
+  "description": "When toggled, after placing a block your hotbar switches to another slot which holds a block. This is useful for making builds with random blocks.",
+  "authors": [
+    "Trikzon"
+  ],
+  "contact": {
+    "homepage": "https://curseforge.com/minecraft/mc-mods/shuffle",
+    "sources": "https://github.com/Trikzon/Shuffle"
+  },
+
+  "license": "LGPL-3.0-or-later",
+  "icon": "assets/shuffle/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "io.github.trikzon.shuffle.fabric.Shuffle"
+    ]
+  },
+  "mixins": [
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.2",
+    "fabric": "*"
+  },
+  "suggests": {
+  }
+}
