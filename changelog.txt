@@ -1,3 +1,7 @@
+1.14.4-1.15.2-20w06a-1.1.0
+    Ported to 20w06a
+    Ported to 1.14.4
+
 1.15.2-1.1.0
     Ported to forge! (Same .jar for both)
     Note: fabric requires Fabric API
