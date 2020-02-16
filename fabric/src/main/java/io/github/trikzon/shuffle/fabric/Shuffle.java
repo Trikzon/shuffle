@@ -124,8 +124,11 @@ public class Shuffle implements ClientModInitializer
                     slotsWithBlocks.add(i);
                 }
             }
-            int randomSlot = world.random.nextInt(slotsWithBlocks.size());
-            slotToSwitchTo = slotsWithBlocks.get(randomSlot);
+            if (slotsWithBlocks.size() > 0)
+            {
+                int randomSlot = world.random.nextInt(slotsWithBlocks.size());
+                slotToSwitchTo = slotsWithBlocks.get(randomSlot);
+            }
         }
         return ActionResult.PASS;
     }

@@ -110,16 +110,23 @@ public class Shuffle
 
         PlayerEntity player = (PlayerEntity) event.getEntity();
 
-        ArrayList<Integer> slotsWithBlocks = new ArrayList<>();
-        for (int i = 0; i <= 8; i++)
+        Item itemInHand = player.getHeldItem(event.getHand()).getItem();
+        if (Block.getBlockFromItem(itemInHand) != Blocks.AIR && itemInHand != Items.AIR)
         {
-            Item item = player.inventory.mainInventory.get(i).getItem();
-            if (Block.getBlockFromItem(item) != Blocks.AIR && item != Items.AIR)
+            ArrayList<Integer> slotsWithBlocks = new ArrayList<>();
+            for (int i = 0; i <= 8; i++)
             {
-                slotsWithBlocks.add(i);
+                Item item = player.inventory.mainInventory.get(i).getItem();
+                if (Block.getBlockFromItem(item) != Blocks.AIR && item != Items.AIR)
+                {
+                    slotsWithBlocks.add(i);
+                }
+            }
+            if (slotsWithBlocks.size() > 0)
+            {
+                int randomSlot = event.getWorld().getRandom().nextInt(slotsWithBlocks.size());
+                slotToSwitchTo = slotsWithBlocks.get(randomSlot);
             }
         }
-        int randomSlot = event.getWorld().getRandom().nextInt(slotsWithBlocks.size());
-        slotToSwitchTo = slotsWithBlocks.get(randomSlot);
     }
 }
