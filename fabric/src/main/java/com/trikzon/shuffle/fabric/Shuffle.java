@@ -18,24 +18,23 @@
  * Revision: 2020-02-05 1.15.2-1.1.0 Ported to forge
  * Author: Trikzon
  * =========================================================================== */
-package io.github.trikzon.shuffle.fabric;
+package com.trikzon.shuffle.fabric;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.keybinding.FabricKeyBinding;
-import net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.event.client.ClientTickCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
@@ -46,42 +45,24 @@ public class Shuffle implements ClientModInitializer
 {
     private static final String MOD_ID = "shuffle";
 
-    private static FabricKeyBinding keyBinding;
-
+    private static final KeyBinding keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+            "key." + MOD_ID + ".shuffle",
+            InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R,
+            "key.category." + MOD_ID
+    ));
     private static boolean shuffleMode = false;
-
-    private static int pressedDelay = 0;
-    // -1 when slot shouldn't be switched
+    private static boolean keyWasDown = false;
     private static int slotToSwitchTo = -1;
-
-    @Override
-    public void onInitializeClient()
-    {
-        onClientSetup();
-        ClientTickCallback.EVENT.register(this::onClientTick);
-        UseBlockCallback.EVENT.register(this::onBlockRightClicked);
-    }
-
-    private void onClientSetup()
-    {
-        keyBinding = FabricKeyBinding.Builder.create(
-                new Identifier(MOD_ID, "shuffle"),
-                InputUtil.Type.KEYSYM,
-                GLFW.GLFW_KEY_R,
-                "Shuffle"
-        ).build();
-
-        KeyBindingRegistry.INSTANCE.addCategory("Shuffle");
-        KeyBindingRegistry.INSTANCE.register(keyBinding);
-    }
 
     private void onClientTick(MinecraftClient client)
     {
         if (client.player == null) return;
         ClientPlayerEntity player = client.player;
 
-        if (keyBinding.isPressed() && pressedDelay == 0)
+        if (keyBinding.isPressed() && !keyWasDown)
         {
+            keyWasDown = true;
+
             shuffleMode = !shuffleMode;
             if (shuffleMode)
             {
@@ -91,12 +72,10 @@ public class Shuffle implements ClientModInitializer
             {
                 player.addChatMessage(new TranslatableText("message.shuffle.disable"), true);
             }
-            pressedDelay = 10;
         }
-
-        if (pressedDelay > 0)
+        else if (!keyBinding.isPressed() && keyWasDown)
         {
-            --pressedDelay;
+            keyWasDown = false;
         }
 
         if (slotToSwitchTo >= 0 && slotToSwitchTo <= 8)
@@ -106,11 +85,12 @@ public class Shuffle implements ClientModInitializer
         }
     }
 
-    private ActionResult onBlockRightClicked(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult)
+    private ActionResult onBlockUse(PlayerEntity player, World world, Hand hand, BlockHitResult result)
     {
-        if (!world.isClient) return ActionResult.PASS;
-        if (!shuffleMode) return ActionResult.PASS;
-        if (player.isSpectator()) return ActionResult.PASS;
+        if (!world.isClient || !shuffleMode || player.isSpectator())
+        {
+            return ActionResult.PASS;
+        }
 
         Item itemInHand = player.getStackInHand(hand).getItem();
         if (Block.getBlockFromItem(itemInHand) != Blocks.AIR && itemInHand != Items.AIR)
@@ -131,5 +111,12 @@ public class Shuffle implements ClientModInitializer
             }
         }
         return ActionResult.PASS;
+    }
+
+    @Override
+    public void onInitializeClient()
+    {
+        ClientTickCallback.EVENT.register(this::onClientTick);
+        UseBlockCallback.EVENT.register(this::onBlockUse);
     }
 }

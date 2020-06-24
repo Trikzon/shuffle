@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "io.github.trikzon.shuffle.fabric.mixin",
+  "package": "com.trikzon.shuffle.fabric.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],

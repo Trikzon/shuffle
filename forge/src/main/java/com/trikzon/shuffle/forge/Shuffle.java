@@ -18,7 +18,7 @@
  * Revision:
  * Author: Trikzon
  * =========================================================================== */
-package io.github.trikzon.shuffle.forge;
+package com.trikzon.shuffle.forge;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -44,31 +44,15 @@ public class Shuffle
 {
     public static final String MOD_ID = "shuffle";
 
-    private static KeyBinding keyBinding;
-
+    private static final KeyBinding keyBinding = new KeyBinding(
+            "key." + MOD_ID + ".shuffle",
+            InputMappings.Type.KEYSYM,
+            GLFW.GLFW_KEY_R,
+            "key.category." + MOD_ID
+    );
     private static boolean shuffleMode = false;
-
-    private static int pressedDelay = 0;
-    // -1 when slot shouldn't be switched
+    private static boolean keyWasDown = false;
     private static int slotToSwitchTo = -1;
-
-    public Shuffle()
-    {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
-        MinecraftForge.EVENT_BUS.addListener(this::onPlayerTick);
-        MinecraftForge.EVENT_BUS.addListener(this::onBlockRightClicked);
-    }
-
-    private void onClientSetup(final FMLClientSetupEvent event)
-    {
-        keyBinding = new KeyBinding(
-                "key." + MOD_ID + ".shuffle",
-                InputMappings.Type.KEYSYM,
-                GLFW.GLFW_KEY_R,
-                "Shuffle"
-        );
-        ClientRegistry.registerKeyBinding(keyBinding);
-    }
 
     private void onPlayerTick(final TickEvent.PlayerTickEvent event)
     {
@@ -76,8 +60,10 @@ public class Shuffle
         if (event.player == null) return;
         PlayerEntity player = event.player;
 
-        if (keyBinding.isPressed() && pressedDelay == 0)
+        if (keyBinding.isPressed() && !keyWasDown)
         {
+            keyWasDown = true;
+
             shuffleMode = !shuffleMode;
             if (shuffleMode)
             {
@@ -87,12 +73,10 @@ public class Shuffle
             {
                 player.sendStatusMessage(new TranslationTextComponent("message.shuffle.disable"), true);
             }
-            pressedDelay = 10;
         }
-
-        if (pressedDelay > 0)
+        else if (!keyBinding.isPressed() && keyWasDown)
         {
-            --pressedDelay;
+            keyWasDown = false;
         }
 
         if (slotToSwitchTo >= 0 && slotToSwitchTo <= 8)
@@ -102,14 +86,15 @@ public class Shuffle
         }
     }
 
-    private void onBlockRightClicked(final PlayerInteractEvent.RightClickBlock event)
+    private void onBlockUse(final PlayerInteractEvent.RightClickBlock event)
     {
-        if (!event.getWorld().isRemote()) return;
-        if (!shuffleMode) return;
-        if (!(event.getEntity() instanceof PlayerEntity)) return;
+        if (!event.getWorld().isRemote || !shuffleMode ||
+                !(event.getEntity() instanceof PlayerEntity) || event.getPlayer().isSpectator())
+        {
+            return;
+        }
 
         PlayerEntity player = (PlayerEntity) event.getEntity();
-
         Item itemInHand = player.getHeldItem(event.getHand()).getItem();
         if (Block.getBlockFromItem(itemInHand) != Blocks.AIR && itemInHand != Items.AIR)
         {
@@ -128,5 +113,17 @@ public class Shuffle
                 slotToSwitchTo = slotsWithBlocks.get(randomSlot);
             }
         }
+    }
+
+    private void onClientSetup(final FMLClientSetupEvent event)
+    {
+        ClientRegistry.registerKeyBinding(keyBinding);
+    }
+
+    public Shuffle()
+    {
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
+        MinecraftForge.EVENT_BUS.addListener(this::onPlayerTick);
+        MinecraftForge.EVENT_BUS.addListener(this::onBlockUse);
     }
 }
