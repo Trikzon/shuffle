@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "shuffle",
+  "version": "${version}",
+  "name": "Shuffle",
+  "description": "Place random blocks from your hotbar with ease!",
+  "authors": [
+    "Trikzon"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/shuffle-fabric",
+    "sources": "https://github.com/trikzon/shuffle"
+  },
+  "license": "MIT",
+  "icon": "assets/shuffle/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.trikzon.shuffle.fabric.ShuffleFabric"
+    ]
+  },
+  "mixins": [
+  ],
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x",
+    "shuffle-common": "*"
+  },
+  "suggests": {
+    "flamingo": "*"
+  },
+  "custom": {
+    "modmenu:api": false,
+    "modmenu:clientsideOnly": true,
+    "modmenu:parent": ""
+  }
+}

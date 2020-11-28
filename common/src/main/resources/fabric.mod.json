@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "id": "shuffle-common",
+  "version": "${version}",
+  "custom": {
+    "modmenu:api": true,
+    "modmenu:clientsideOnly": true,
+    "modmenu:parent": "shuffle"
+  }
+}

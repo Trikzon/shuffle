@@ -1,0 +1,29 @@
+modLoader="javafml"
+loaderVersion="[35,)"
+license="MIT"
+issueTrackerURL="https://github.com/trikzon/shuffle/issues"
+
+[[mods]]
+modId="shuffle"
+version="${file.jarVersion}"
+displayName="Shuffle"
+#updateJSONURL=""
+displayURL="https://github.com/trikzon/shuffle"
+#logoFile=""
+#credits=""
+authors="Trikzon"
+description='''
+'''
+
+[[dependencies.shuffle]]
+    modId="forge"
+    mandatory=true
+    versionRange="[35,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.shuffle]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.2,)"
+    ordering="NONE"
+    side="BOTH"

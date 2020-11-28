@@ -1,0 +1,25 @@
+plugins {
+    id "architect-plugin" version "1.0.10"
+}
+
+architect {
+    minecraft = rootProject.minecraft_version
+}
+
+allprojects {
+    apply plugin: "java"
+    apply plugin: "architect-plugin"
+
+    archivesBaseName = rootProject.mod_id
+    group = rootProject.mod_group
+
+    if (System.env.CI == "true") {
+        version = "${project.mod_version}+a${System.env.GITHUB_RUN_NUMBER}.${branch}"
+    } else {
+        version = "${project.mod_version}+${project.minecraft_version}"
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+}
