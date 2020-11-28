@@ -1,12 +1,13 @@
 package com.trikzon.shuffle.forge;
 
 import com.trikzon.shuffle.ShuffleCore;
-import com.trikzon.shuffle.platform.AbstractPlatform;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod(ShuffleCore.MOD_ID)
-public class ShuffleForge implements AbstractPlatform {
+public class ShuffleForge {
     public ShuffleForge() {
-        ShuffleCore.init(this);
+        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ShuffleForgeClient::new);
     }
 }

@@ -1,6 +1,6 @@
 # Shuffle
 [![](http://cf.way2muchnoise.eu/full_360916_fabric.svg)](https://www.curseforge.com/minecraft/mc-mods/flora-doubling-fabric) [![](http://cf.way2muchnoise.eu/versions/360916.svg)](https://www.curseforge.com/minecraft/mc-mods/flora-doubling-fabric) 
-[![](http://cf.way2muchnoise.eu/full_411161_forge.svg)](https://www.curseforge.com/minecraft/mc-mods/flora-doubling) [![](http://cf.way2muchnoise.eu/versions/411161.svg)](https://www.curseforge.com/minecraft/mc-mods/flora-doubling) 
+[![](http://cf.way2muchnoise.eu/full_411161_forge.svg)](https://www.curseforge.com/minecraft/mc-mods/flora-doubling-forge) [![](http://cf.way2muchnoise.eu/versions/411161.svg)](https://www.curseforge.com/minecraft/mc-mods/flora-doubling-forge) 
 
 [YouTube Video Demonstration](https://www.youtube.com/watch?v=iTEJO_tNMgs)
 

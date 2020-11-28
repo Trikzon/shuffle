@@ -15,7 +15,7 @@
   "icon": "assets/shuffle/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": [
+    "client": [
       "com.trikzon.shuffle.fabric.ShuffleFabric"
     ]
   },
