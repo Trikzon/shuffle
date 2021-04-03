@@ -28,10 +28,5 @@
   },
   "suggests": {
     "flamingo": "*"
-  },
-  "custom": {
-    "modmenu:api": false,
-    "modmenu:clientsideOnly": true,
-    "modmenu:parent": ""
   }
 }
