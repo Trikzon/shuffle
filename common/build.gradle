@@ -1,16 +1,40 @@
-plugins {
-    id "fabric-loom"
-}
-
 dependencies {
-    minecraft "com.mojang:minecraft:${rootProject.architect.minecraft}"
-    mappings minecraft.officialMojangMappings()
-    // We depend on fabric loader here to use the fabric @Environment annotations
+    // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
     // Do NOT use other classes from fabric loader
-    modCompile "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 }
 
-architect {
+architectury {
     common()
 }
 
+java {
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        mavenCommon(MavenPublication) {
+            artifactId = rootProject.archives_base_name
+            // add all the jars that should be included when publishing to maven
+            artifact remapJar
+            artifact(sourcesJar) {
+                builtBy remapSourcesJar
+            }
+        }
+    }
+
+    repositories {
+//        if (System.getenv("DODO_GANG_MAVEN_TOKEN") != null) {
+//            maven {
+//                name = "DodoGangMavenRepo"
+//                url = "http://maven.dodogang.net/releases"
+//                allowInsecureProtocol = true
+//                credentials {
+//                    username = "dodogang"
+//                    password = System.getenv("DODO_GANG_MAVEN_TOKEN")
+//                }
+//            }
+//        }
+    }
+}

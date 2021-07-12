@@ -1,57 +1,95 @@
 plugins {
-    id "fabric-loom"
     id "com.github.johnrengelman.shadow" version "5.0.0"
 }
 
-version = project.version + "-fabric"
-
 configurations {
-    shadow
+    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+}
+
+architectury {
+    platformSetupLoomIde()
+    fabric()
 }
 
 dependencies {
-    minecraft("com.mojang:minecraft:${rootProject.architect.minecraft}")
-    mappings(minecraft.officialMojangMappings())
-    modCompile("net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}")
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
-    if (rootProject.hasProperty('fabric_api_version')) {
-        modCompile("net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}")
-    }
-    if (rootProject.hasProperty('rei_version')) {
-        modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"
-        modRuntime "me.shedaniel:RoughlyEnoughItems:${rootProject.rei_version}"
-    }
-    if (rootProject.hasProperty('mod_menu_version')) {
-        modRuntime "io.github.prospector:modmenu:${rootProject.mod_menu_version}"
-    }
+//    modRuntime("com.terraformersmc:modmenu:${rootProject.mod_menu_version}")
 
-    compile(project(":common")) {
+    // Remove the following line to gain access to REI's API in code.
+//    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"
+    modRuntime "me.shedaniel:RoughlyEnoughItems:${rootProject.rei_version}"
+
+    implementation(project(path: ":common")) {
         transitive = false
     }
-    shadow(project(":common")) {
+    developmentFabric(project(path: ":common")) {
         transitive = false
+    }
+    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) {
+        transitive = false
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
     }
 }
 
 shadowJar {
-    configurations = [project.configurations.shadow]
-    classifier "shadow"
+    configurations = [project.configurations.shadowCommon]
+    classifier "dev-shadow"
 }
 
 remapJar {
-    dependsOn(shadowJar)
-    input.set(shadowJar.archivePath)
+    input.set shadowJar.archiveFile
+    dependsOn shadowJar
+    classifier "fabric"
 }
 
-processResources {
-    inputs.property "version", rootProject.mod_version
+jar {
+    classifier "dev"
+}
 
-    from(sourceSets.main.resources.srcDirs) {
-        include "fabric.mod.json"
-        expand "version": rootProject.mod_version
+java {
+    withSourcesJar()
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+}
+
+publishing {
+    publications {
+        mavenFabric(MavenPublication) {
+            artifactId = rootProject.archives_base_name + "-" + project.name
+            // add all the jars that should be included when publishing to maven
+            artifact(remapJar) {
+                classifier null
+            }
+            artifact(sourcesJar) {
+                builtBy remapSourcesJar
+            }
+        }
     }
 
-    from(sourceSets.main.resources.srcDirs) {
-        exclude "fabric.mod.json"
+    repositories {
+        if (System.getenv("DODO_GANG_MAVEN_TOKEN") != null) {
+            maven {
+                name = "DodoGangMavenRepo"
+                url = "http://maven.dodogang.net/releases"
+                allowInsecureProtocol = true
+                credentials {
+                    username = "dodogang"
+                    password = System.getenv("DODO_GANG_MAVEN_TOKEN")
+                }
+            }
+        }
     }
 }
