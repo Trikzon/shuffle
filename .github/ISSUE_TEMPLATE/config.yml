@@ -1,8 +1,8 @@
 blank_issues_enabled: true
 contact_links:
   - name: Feature Request
-    url: https://github.com/dodogang/architectury-example-mod/discussions/new
+    url: https://github.com/trikzon/shuffle/discussions/new
     about: Discuss a feature request to fully develop it.
   - name: Question
-    url: https://github.com/dodogang/architectury-example-mod/discussions/new
+    url: https://github.com/trikzon/shuffle/discussions/new
     about: Ask a question.
