@@ -1,4 +1,6 @@
 {
+    "shuffle.discord": "Discord",
+
     "key.category.shuffle": "Shuffle",
     "key.shuffle.shuffle": "Shuffle Mode Toggle",
     "message.shuffle.enable": "Shuffle Mode: Enabled",

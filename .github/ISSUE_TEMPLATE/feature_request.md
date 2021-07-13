@@ -22,4 +22,4 @@ assignees: ''
 
 ## Have you already discussed the feature using the discussion feature?
 <!--- Features should first be discussed so they can be fully developed. -->
-<!--- https://github.com/dodogang/architectury-example-mod/discussions/new -->
+<!--- https://github.com/trikzon/shuffle/discussions/new -->

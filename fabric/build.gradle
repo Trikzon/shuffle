@@ -19,7 +19,7 @@ dependencies {
 
     // Remove the following line to gain access to REI's API in code.
 //    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"
-    modRuntime "me.shedaniel:RoughlyEnoughItems:${rootProject.rei_version}"
+//    modRuntime "me.shedaniel:RoughlyEnoughItems:${rootProject.rei_version}"
 
     implementation(project(path: ":common")) {
         transitive = false

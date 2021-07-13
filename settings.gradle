@@ -9,6 +9,6 @@ pluginManagement {
 
 include("common")
 include("fabric")
-include("forge")
+//include("forge")
 
-rootProject.name = "plume-1.16.5"
+rootProject.name = "shuffle-1.17.1"

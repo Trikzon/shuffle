@@ -1,6 +1,6 @@
-package com.trikzon.shuffle;
+package com.trikzon.shuffle.client;
 
-import com.trikzon.shuffle.platform.AbstractPlatform;
+import com.trikzon.shuffle.client.platform.AbstractPlatform;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
-public class ShuffleCore {
+public class Shuffle {
     public static final String MOD_ID = "shuffle";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
@@ -28,49 +28,49 @@ public class ShuffleCore {
     private static boolean keyWasDown = false;
     private static int slotToSwitchTo = -1;
 
-    public ShuffleCore(AbstractPlatform platform) {
-        ShuffleCore.platform = platform;
+    public Shuffle(AbstractPlatform platform) {
+        Shuffle.platform = platform;
     }
 
     public void onClientTick(Minecraft client) {
         LocalPlayer player = client.player;
         if (player == null) return;
 
-        if (platform.isShuffleKeyPressed() && !keyWasDown) {
+        if (platform.isShuffleKeyPressed() && !Shuffle.keyWasDown) {
             keyWasDown = true;
 
-            shuffleMode = !shuffleMode;
-            if (shuffleMode) {
+            Shuffle.shuffleMode = !Shuffle.shuffleMode;
+            if (Shuffle.shuffleMode) {
                 player.displayClientMessage(new TranslatableComponent("message.shuffle.enable"), true);
                 player.playSound(SoundEvents.TRIPWIRE_CLICK_OFF, 0.5f, 1.0f);
             } else {
                 player.displayClientMessage(new TranslatableComponent("message.shuffle.disable"), true);
                 player.playSound(SoundEvents.TRIPWIRE_CLICK_ON, 0.5f, 0.75f);
             }
-        } else if (!platform.isShuffleKeyPressed() && keyWasDown) {
-            keyWasDown = false;
+        } else if (!platform.isShuffleKeyPressed() && Shuffle.keyWasDown) {
+            Shuffle.keyWasDown = false;
         }
 
-        if (slotToSwitchTo >= 0 && slotToSwitchTo <= 8) {
-            player.inventory.selected = slotToSwitchTo;
-            slotToSwitchTo = -1;
+        if (Shuffle.slotToSwitchTo >= 0 && Shuffle.slotToSwitchTo <= 8) {
+            player.getInventory().selected = Shuffle.slotToSwitchTo;
+            Shuffle.slotToSwitchTo = -1;
         }
     }
 
     public InteractionResult onRightClickBlock(Player player, Level level, InteractionHand hand) {
-        if (!(!level.isClientSide || !shuffleMode || player.isSpectator())) {
+        if (!(!level.isClientSide || !Shuffle.shuffleMode || player.isSpectator())) {
             Item itemInHand = player.getItemInHand(hand).getItem();
             if (Block.byItem(itemInHand) != Blocks.AIR && itemInHand != Items.AIR) {
                 ArrayList<Integer> slotsWithBlocks = new ArrayList<>();
                 for (int i = 0; i <= 8; i++) {
-                    Item item = player.inventory.items.get(i).getItem();
+                    Item item = player.getInventory().items.get(i).getItem();
                     if (Block.byItem(item) != Blocks.AIR && item != Items.AIR) {
                         slotsWithBlocks.add(i);
                     }
                 }
                 if (slotsWithBlocks.size() > 0) {
                     int randomSlot = level.random.nextInt(slotsWithBlocks.size());
-                    this.slotToSwitchTo = slotsWithBlocks.get(randomSlot);
+                    Shuffle.slotToSwitchTo = slotsWithBlocks.get(randomSlot);
                 }
             }
         }

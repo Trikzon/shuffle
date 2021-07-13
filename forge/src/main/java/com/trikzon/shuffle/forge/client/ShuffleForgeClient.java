@@ -1,4 +1,4 @@
-package com.trikzon.shuffle.forge;
+package com.trikzon.shuffle.forge.client;
 
 import com.trikzon.shuffle.ShuffleCore;
 import com.trikzon.shuffle.platform.AbstractPlatform;
