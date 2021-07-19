@@ -16,7 +16,7 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "com.trikzon.shuffle.fabric.ShuffleFabric"
+      "com.trikzon.shuffle.fabric.client.ShuffleFabricClient"
     ]
   },
   "mixins": [

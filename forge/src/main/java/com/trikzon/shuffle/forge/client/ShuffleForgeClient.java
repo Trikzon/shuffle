@@ -1,9 +1,9 @@
-package com.trikzon.shuffle.forge;
+package com.trikzon.shuffle.forge.client;
 
-import com.trikzon.shuffle.ShuffleCore;
-import com.trikzon.shuffle.platform.AbstractPlatform;
+import com.trikzon.shuffle.client.ShuffleClient;
+import com.trikzon.shuffle.client.platform.AbstractPlatform;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -13,16 +13,16 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.lwjgl.glfw.GLFW;
 
 public class ShuffleForgeClient implements AbstractPlatform {
-    private static final KeyBinding keyBinding = new KeyBinding(
-            "key." + ShuffleCore.MOD_ID + ".shuffle",
+    private static final KeyMapping keyMapping = new KeyMapping(
+            "key." + ShuffleClient.MOD_ID + ".shuffle",
             GLFW.GLFW_KEY_R,
-            "key.category." + ShuffleCore.MOD_ID
+            "key.category." + ShuffleClient.MOD_ID
     );
 
-    private ShuffleCore core;
+    private final ShuffleClient core;
 
     public ShuffleForgeClient() {
-        this.core = new ShuffleCore(this);
+        this.core = new ShuffleClient(this);
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
         MinecraftForge.EVENT_BUS.addListener(this::onClientTick);
@@ -30,7 +30,7 @@ public class ShuffleForgeClient implements AbstractPlatform {
     }
 
     private void onClientSetup(final FMLClientSetupEvent event) {
-        ClientRegistry.registerKeyBinding(keyBinding);
+        ClientRegistry.registerKeyBinding(keyMapping);
     }
 
     private void onClientTick(final TickEvent.ClientTickEvent event) {
@@ -43,6 +43,6 @@ public class ShuffleForgeClient implements AbstractPlatform {
 
     @Override
     public boolean isShuffleKeyPressed() {
-        return keyBinding.isDown();
+        return keyMapping.isDown();
     }
 }

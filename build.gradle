@@ -11,9 +11,9 @@ subprojects {
     apply plugin: "dev.architectury.loom"
 
     // Silences mojang mappings, if enabled. See dependencies block just below this.
-//     loom {
-//         silentMojangMappingsLicense()
-//     }
+     loom {
+         silentMojangMappingsLicense()
+     }
 
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"

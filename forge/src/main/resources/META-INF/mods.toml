@@ -5,7 +5,7 @@ issueTrackerURL="https://github.com/trikzon/shuffle/issues"
 
 [[mods]]
 modId="shuffle"
-version="${file.jarVersion}"
+version="${version}"
 displayName="Shuffle"
 #updateJSONURL=""
 displayURL="https://github.com/trikzon/shuffle"
