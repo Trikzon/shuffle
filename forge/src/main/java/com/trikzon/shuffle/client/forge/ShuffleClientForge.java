@@ -1,28 +1,29 @@
-package com.trikzon.shuffle.forge.client;
+package com.trikzon.shuffle.client.forge;
 
-import com.trikzon.shuffle.ShuffleCore;
-import com.trikzon.shuffle.platform.AbstractPlatform;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
+import com.trikzon.shuffle.Shuffle;
+import com.trikzon.shuffle.client.AbstractClientPlatform;
+import com.trikzon.shuffle.client.ShuffleClient;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.lwjgl.glfw.GLFW;
 
-public class ShuffleForgeClient implements AbstractPlatform {
+public class ShuffleClientForge implements AbstractClientPlatform {
     private static final KeyBinding keyBinding = new KeyBinding(
-            "key." + ShuffleCore.MOD_ID + ".shuffle",
+            "key." + Shuffle.MOD_ID + ".shuffle",
             GLFW.GLFW_KEY_R,
-            "key.category." + ShuffleCore.MOD_ID
+            "key.category." + Shuffle.MOD_ID
     );
 
-    private ShuffleCore core;
+    private final ShuffleClient mod;
 
-    public ShuffleForgeClient() {
-        this.core = new ShuffleCore(this);
+    public ShuffleClientForge() {
+        this.mod = new ShuffleClient(this);
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
         MinecraftForge.EVENT_BUS.addListener(this::onClientTick);
@@ -34,15 +35,15 @@ public class ShuffleForgeClient implements AbstractPlatform {
     }
 
     private void onClientTick(final TickEvent.ClientTickEvent event) {
-        this.core.onClientTick(Minecraft.getInstance());
+        this.mod.onClientTick(MinecraftClient.getInstance());
     }
 
     private void onRightClickBlock(final PlayerInteractEvent.RightClickBlock event) {
-        this.core.onRightClickBlock(event.getPlayer(), event.getWorld(), event.getHand());
+        this.mod.onRightClickBlock(event.getPlayer(), event.getWorld(), event.getHand());
     }
 
     @Override
     public boolean isShuffleKeyPressed() {
-        return keyBinding.isDown();
+        return keyBinding.isPressed();
     }
 }

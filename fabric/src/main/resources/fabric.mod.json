@@ -8,32 +8,24 @@
         "Trikzon"
     ],
     "contact": {
-        "homepage": "https://www.curseforge.com/minecraft/mc-mods/shuffle-fabric",
+        "homepage": "https://curseforge.com/minecraft/mc-mods/shuffle-fabric",
         "sources": "https://github.com/trikzon/shuffle"
     },
-    "license": "MIT",
+    "license": "MIT; Assets Licensed as All Rights Reserved",
     "icon": "assets/shuffle/icon.png",
     "environment": "*",
     "entrypoints": {
         "client": [
-            "com.trikzon.shuffle.fabric.client.ShuffleFabricClient"
+            "com.trikzon.shuffle.client.fabric.ShuffleClientFabric"
         ]
     },
     "mixins": [
     ],
     "depends": {
-        "fabricloader": ">=0.11",
         "fabric": "*",
-        "minecraft": "1.17.x"
+        "minecraft": ">=1.18"
     },
     "suggests": {
         "flamingo": "*"
-    },
-    "custom": {
-        "modmenu": {
-            "links": {
-                "shuffle.discord": "https://discord.gg/aqXkvbJ"
-            }
-        }
     }
 }
