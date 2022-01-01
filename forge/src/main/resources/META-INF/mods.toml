@@ -1,29 +1,28 @@
-modLoader="javafml"
-loaderVersion="[35,)"
-license="MIT"
-issueTrackerURL="https://github.com/trikzon/shuffle/issues"
+modLoader = "javafml"
+loaderVersion = "[38,)"
+license = "MIT; Assets Licensed as All Rights Reserved"
+issueTrackerURL = "https://github.com/trikzon/shuffle/issues"
 
 [[mods]]
-modId="shuffle"
-version="${version}"
-displayName="Shuffle"
-#updateJSONURL=""
+modId = "shuffle"
+version = "${version}"
+displayName = "Shuffle"
 displayURL="https://github.com/trikzon/shuffle"
-#logoFile=""
-#credits=""
-authors="Trikzon"
-description='''
+authors = "Trikzon"
+description = '''
+Place random blocks from your hotbar with ease!
 '''
 
 [[dependencies.shuffle]]
-    modId="forge"
-    mandatory=true
-    versionRange="[35,)"
-    ordering="NONE"
-    side="BOTH"
+modId = "forge"
+mandatory = true
+versionRange = "[38,)"
+ordering = "NONE"
+side = "BOTH"
+
 [[dependencies.shuffle]]
-    modId="minecraft"
-    mandatory=true
-    versionRange="[1.16.2,)"
-    ordering="NONE"
-    side="BOTH"
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18,)"
+ordering = "NONE"
+side = "BOTH"

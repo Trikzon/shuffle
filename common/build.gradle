@@ -5,36 +5,19 @@ dependencies {
 }
 
 architectury {
-    common(false)
-}
-
-java {
-    withSourcesJar()
+    common()
 }
 
 publishing {
     publications {
         mavenCommon(MavenPublication) {
             artifactId = rootProject.archives_base_name
-            // add all the jars that should be included when publishing to maven
-            artifact remapJar
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
+            from components.java
         }
     }
 
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
-//        if (System.getenv("DODO_GANG_MAVEN_TOKEN") != null) {
-//            maven {
-//                name = "DodoGangMavenRepo"
-//                url = "http://maven.dodogang.net/releases"
-//                allowInsecureProtocol = true
-//                credentials {
-//                    username = "dodogang"
-//                    password = System.getenv("DODO_GANG_MAVEN_TOKEN")
-//                }
-//            }
-//        }
+        // Add repositories to publish to here.
     }
 }
