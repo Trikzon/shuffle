@@ -1,17 +1,17 @@
 modLoader = "javafml"
 loaderVersion = "[38,)"
-license = "MIT; Assets Licensed as All Rights Reserved"
 issueTrackerURL = "https://github.com/trikzon/shuffle/issues"
+license = "MIT; Assets licensed as All Rights Reserved"
 
 [[mods]]
 modId = "shuffle"
 version = "${version}"
 displayName = "Shuffle"
-displayURL="https://github.com/trikzon/shuffle"
 authors = "Trikzon"
 description = '''
 Place random blocks from your hotbar with ease!
 '''
+#logoFile = ""
 
 [[dependencies.shuffle]]
 modId = "forge"

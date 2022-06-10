@@ -1,31 +1,31 @@
 {
-    "schemaVersion": 1,
-    "id": "shuffle",
-    "version": "${version}",
-    "name": "Shuffle",
-    "description": "Place random blocks from your hotbar with ease!",
-    "authors": [
-        "Trikzon"
-    ],
-    "contact": {
-        "homepage": "https://curseforge.com/minecraft/mc-mods/shuffle-fabric",
-        "sources": "https://github.com/trikzon/shuffle"
-    },
-    "license": "MIT; Assets Licensed as All Rights Reserved",
-    "icon": "assets/shuffle/icon.png",
-    "environment": "*",
-    "entrypoints": {
-        "client": [
-            "com.trikzon.shuffle.client.fabric.ShuffleClientFabric"
-        ]
-    },
-    "mixins": [
-    ],
-    "depends": {
-        "fabric": "*",
-        "minecraft": ">=1.18"
-    },
-    "suggests": {
-        "flamingo": "*"
-    }
+  "schemaVersion": 1,
+  "id": "shuffle",
+  "version": "${version}",
+  "name": "Shuffle",
+  "description": "Place random blocks fromm your hotbar with ease!",
+  "authors": [
+    "Trikzon"
+  ],
+  "contact": {
+    "homepage": "https://curseforge.com/minecraft/mc-mods/shuffle",
+    "issues": "https://github.com/trikzon/shuffle/issues",
+    "sources": "https://github.com/trikzon/shuffle"
+  },
+  "license": "MIT; Assets licensed as All Rights Reserved",
+  "icon": "assets/shuffle/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.trikzon.shuffle.client.fabric.ShuffleClientFabric"
+    ]
+  },
+  "mixins": [
+    "shuffle.mixins.json",
+    "shuffle-common.mixins.json"
+  ],
+  "depends": {
+    "fabric": "*",
+    "minecraft": ">=1.18"
+  }
 }

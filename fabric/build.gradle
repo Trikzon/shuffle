@@ -1,10 +1,14 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.1"
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
 architectury {
     platformSetupLoomIde()
     fabric()
+}
+
+loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
 }
 
 configurations {
@@ -32,11 +36,14 @@ processResources {
 }
 
 shadowJar {
+    exclude "architectury.common.json"
+
     configurations = [project.configurations.shadowCommon]
     classifier "dev-shadow"
 }
 
 remapJar {
+    injectAccessWidener = true
     input.set shadowJar.archiveFile
     dependsOn shadowJar
     classifier null

@@ -1,73 +1,89 @@
 package com.trikzon.shuffle.client;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import com.trikzon.shuffle.Shuffle;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.BlockHitResult;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 
 public class ShuffleClient {
-    public static AbstractClientPlatform platform;
-
     private static boolean shuffleMode = false;
     private static boolean keyWasDown = false;
     private static int slotToSwitchTo = -1;
 
-    public ShuffleClient(AbstractClientPlatform platform) {
-        ShuffleClient.platform = platform;
+    private static KeyMapping keyMapping;
+
+    public static void initialize() {
+        ShuffleClient.keyMapping = PlatformClient.registerKeyMapping(
+                new ResourceLocation(Shuffle.MOD_ID, "shuffle"),
+                GLFW.GLFW_KEY_R,
+                "key.categories." + Shuffle.MOD_ID
+        );
+        PlatformClient.registerClientTickEvent(ShuffleClient::onClientTick);
+        PlatformClient.registerRightClickBlockEvent(ShuffleClient::onRightClickBlock);
     }
 
-    public void onClientTick(MinecraftClient client) {
-        ClientPlayerEntity player = client.player;
+    private static void onClientTick(Minecraft client) {
+        LocalPlayer player = client.player;
         if (player == null) return;
 
-        if (platform.isShuffleKeyPressed() && !ShuffleClient.keyWasDown) {
+        if (keyMapping.isDown() && !ShuffleClient.keyWasDown) {
             ShuffleClient.keyWasDown = true;
 
             ShuffleClient.shuffleMode = !ShuffleClient.shuffleMode;
             if (ShuffleClient.shuffleMode) {
-                player.sendMessage(new TranslatableText("message.shuffle.enable"), true);
-                player.playSound(SoundEvents.BLOCK_TRIPWIRE_CLICK_OFF, 0.5f, 1.0f);
+                player.displayClientMessage(new TranslatableComponent("message.shuffle.enable"), true);
+                player.playSound(SoundEvents.TRIPWIRE_CLICK_OFF, 0.5f, 1.0f);
             } else {
-                player.sendMessage(new TranslatableText("message.shuffle.disable"), true);
-                player.playSound(SoundEvents.BLOCK_TRIPWIRE_CLICK_ON, 0.5f, 1.0f);
+                player.displayClientMessage(new TranslatableComponent("message.shuffle.disable"), true);
+                player.playSound(SoundEvents.TRIPWIRE_CLICK_ON, 0.5f, 1.0f);
             }
-        } else if (!platform.isShuffleKeyPressed() && ShuffleClient.keyWasDown) {
+        } else if (!keyMapping.isDown() && ShuffleClient.keyWasDown) {
             ShuffleClient.keyWasDown = false;
         }
 
         if (ShuffleClient.slotToSwitchTo >= 0 && ShuffleClient.slotToSwitchTo <= 8) {
-            player.getInventory().selectedSlot = ShuffleClient.slotToSwitchTo;
+            player.getInventory().selected = ShuffleClient.slotToSwitchTo;
             ShuffleClient.slotToSwitchTo = -1;
         }
     }
 
-    public ActionResult onRightClickBlock(PlayerEntity player, World world, Hand hand) {
-        if (!(!world.isClient || !ShuffleClient.shuffleMode || player.isSpectator())) {
-            Item itemInHand = player.getStackInHand(hand).getItem();
-            if (Block.getBlockFromItem(itemInHand) != Blocks.AIR && itemInHand != Items.AIR) {
+    private static InteractionResult onRightClickBlock(
+            Player player,
+            Level level,
+            InteractionHand hand,
+            BlockHitResult result
+    ) {
+        if (!(level.isClientSide || !ShuffleClient.shuffleMode || player.isSpectator())) {
+            Item itemInHand = player.getItemInHand(hand).getItem();
+            if (Block.byItem(itemInHand) != Blocks.AIR && itemInHand != Items.AIR) {
                 ArrayList<Integer> slotsWithBlocks = new ArrayList<>();
                 for (int i = 0; i <= 8; i++) {
-                    Item item = player.getInventory().main.get(i).getItem();
-                    if (Block.getBlockFromItem(item) != Blocks.AIR && item != Items.AIR) {
+                    Item item = player.getInventory().items.get(i).getItem();
+                    if (Block.byItem(item) != Blocks.AIR && item != Items.AIR) {
                         slotsWithBlocks.add(i);
                     }
                 }
                 if (slotsWithBlocks.size() > 0) {
-                    int randomSlot = world.random.nextInt(slotsWithBlocks.size());
+                    int randomSlot = level.random.nextInt(slotsWithBlocks.size());
                     ShuffleClient.slotToSwitchTo = slotsWithBlocks.get(randomSlot);
                 }
             }
         }
-        return ActionResult.PASS;
+        return InteractionResult.PASS;
     }
 }
