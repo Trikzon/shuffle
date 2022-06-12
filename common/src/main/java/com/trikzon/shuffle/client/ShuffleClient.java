@@ -4,7 +4,7 @@ import com.trikzon.shuffle.Shuffle;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -46,10 +46,10 @@ public class ShuffleClient {
 
             ShuffleClient.shuffleMode = !ShuffleClient.shuffleMode;
             if (ShuffleClient.shuffleMode) {
-                player.displayClientMessage(new TranslatableComponent("message.shuffle.enable"), true);
+                player.displayClientMessage(Component.translatable("message.shuffle.enable"), true);
                 player.playSound(SoundEvents.TRIPWIRE_CLICK_OFF, 0.5f, 1.0f);
             } else {
-                player.displayClientMessage(new TranslatableComponent("message.shuffle.disable"), true);
+                player.displayClientMessage(Component.translatable("message.shuffle.disable"), true);
                 player.playSound(SoundEvents.TRIPWIRE_CLICK_ON, 0.5f, 1.0f);
             }
         } else if (!keyMapping.isDown() && ShuffleClient.keyWasDown) {

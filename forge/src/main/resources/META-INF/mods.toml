@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[38,)"
+loaderVersion = "[41,)"
 issueTrackerURL = "https://github.com/trikzon/shuffle/issues"
 license = "MIT; Assets licensed as All Rights Reserved"
 
@@ -16,13 +16,13 @@ Place random blocks from your hotbar with ease!
 [[dependencies.shuffle]]
 modId = "forge"
 mandatory = true
-versionRange = "[38,)"
+versionRange = "[41,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.shuffle]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.18,)"
+versionRange = "[1.19,)"
 ordering = "NONE"
 side = "BOTH"
