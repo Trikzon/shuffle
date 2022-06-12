@@ -12,10 +12,6 @@ This mod is completely **client-side** and will work on vanilla servers.
 
 **Disclaimer:** Most servers have rules against the use of mods. I am not liable for any rule breakers.
 
-## Supported Versions
-
-![](https://raw.githubusercontent.com/Trikzon/lts-schedule/master/out/shuffle.png)
-
 ## License
 
 All assets found in the following directories are licensed under All Rights Reserved.
