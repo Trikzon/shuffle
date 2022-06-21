@@ -68,7 +68,7 @@ public class ShuffleClient {
             InteractionHand hand,
             BlockHitResult result
     ) {
-        if (!(level.isClientSide || !ShuffleClient.shuffleMode || player.isSpectator())) {
+        if (!(!level.isClientSide || !ShuffleClient.shuffleMode || player.isSpectator())) {
             Item itemInHand = player.getItemInHand(hand).getItem();
             if (Block.byItem(itemInHand) != Blocks.AIR && itemInHand != Items.AIR) {
                 ArrayList<Integer> slotsWithBlocks = new ArrayList<>();
