@@ -5,11 +5,10 @@ import com.trikzon.shuffle.client.PlatformClient;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.ClientRegistry;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +28,9 @@ public class PlatformClientImpl {
         return keyMapping;
     }
 
-    public static void onClientSetup(final FMLClientSetupEvent event) {
+    public static void onRegisterKeyMappings(final RegisterKeyMappingsEvent event) {
         for (KeyMapping keyMapping : keyMappings) {
-            ClientRegistry.registerKeyBinding(keyMapping);
+            event.register(keyMapping);
         }
     }
 
@@ -43,7 +42,7 @@ public class PlatformClientImpl {
 
     public static void registerRightClickBlockEvent(PlatformClient.RightClickBlockCallback callback) {
         MinecraftForge.EVENT_BUS.<PlayerInteractEvent.RightClickBlock>addListener(e -> {
-            callback.rightClickBlock(e.getPlayer(), e.getWorld(), e.getHand(), e.getHitVec());
+            callback.rightClickBlock(e.getEntity(), e.getLevel(), e.getHand(), e.getHitVec());
         });
     }
 }

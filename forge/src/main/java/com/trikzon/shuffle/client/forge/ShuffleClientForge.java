@@ -9,6 +9,6 @@ public class ShuffleClientForge {
         Shuffle.initialize();
         ShuffleClient.initialize();
 
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(PlatformClientImpl::onClientSetup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(PlatformClientImpl::onRegisterKeyMappings);
     }
 }

@@ -19,8 +19,13 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ShuffleClient {
+    // Uses a different instance of random because some mod has been found to
+    // mess with the level's random which breaks shuffle completely.
+    private static final Random random = new Random();
+
     private static boolean shuffleMode = false;
     private static boolean keyWasDown = false;
     private static int slotToSwitchTo = -1;
@@ -79,7 +84,7 @@ public class ShuffleClient {
                     }
                 }
                 if (slotsWithBlocks.size() > 0) {
-                    int randomSlot = level.random.nextInt(slotsWithBlocks.size());
+                    int randomSlot = ShuffleClient.random.nextInt(slotsWithBlocks.size());
                     ShuffleClient.slotToSwitchTo = slotsWithBlocks.get(randomSlot);
                 }
             }
