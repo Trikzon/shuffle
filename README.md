@@ -3,31 +3,12 @@
 [![](https://modrinth-utils.vercel.app/api/badge/downloads/?id=shuffle&logo=true)](https://www.modrinth.com/mod/shuffle)
 [![](http://cf.way2muchnoise.eu/versions/360916.svg)](https://www.curseforge.com/minecraft/mc-mods/shuffle)
 
-[YouTube Video Demonstration](https://www.youtube.com/watch?v=iTEJO_tNMgs)
+Shuffle allows players to place blocks randomly from their hotbar. This can help speed up the building process and add variety to constructions. [YouTube Demonstration](https://youtu.be/iTEJO_tNMgs)
 
-## What does this mod do?
-When toggled (with `r` by default), after placing a block it will randomly switch your active hotbar slot to another block.
-This lets you automatically 'shuffle' between blocks when placing them quickly.
+---
 
-This mod is completely **client-side** and will work on vanilla servers.
+Report any issues on [GitHub](https://github.com/Trikzon/modid/issues). Chat on [Discord](https://discord.gg/aqXkvbJ) in the `#mc-mods` channel.
 
-**Disclaimer:** Most servers have rules against the use of mods. I am not liable for any rule breakers.
+Support the development of my mods on [Ko-fi](https://ko-fi.com/X7X8D56YI).
 
-## License
-
-All assets found in the following directories are licensed under All Rights Reserved.
-- ./common/src/main/resources/assets/
-- ./fabric/src/main/resources/assets/
-- ./forge/src/main/resources/assets/
-
-Everything else is licensed under MIT.
-
-Want clarification or explicit permission? Contact me on [Discord](https://discord.gg/aqXkvbJ).
-
-## Other Information
-
-- Report issues here: https://github.com/Trikzon/shuffle/issues
-- Join my discord: https://discord.gg/aqXkvbJ
-- You can include this mod in your modpack as long as you don't claim the mod as your own.
-
-[<img src="https://user-images.githubusercontent.com/14358394/115450238-f39e8100-a21b-11eb-89d0-fa4b82cdbce8.png" width="200">](https://ko-fi.com/trikzon)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X7X8D56YI)

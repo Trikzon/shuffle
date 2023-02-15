@@ -1,16 +1,12 @@
 {
   "schema_version": 1,
-  "mixin": [
-    "shuffle.mixins.json",
-    "shuffle-common.mixins.json"
-  ],
   "quilt_loader": {
-    "group": "${group}",
+    "group": "com.diontryban.mods",
     "id": "shuffle",
     "version": "${version}",
     "metadata": {
       "name": "Shuffle",
-      "description": "Place random blocks from your hotbar with ease!",
+      "description": "Randomly place blocks from your hotbar while building.",
       "contributors": {
         "Trikzon": "Owner"
       },
@@ -19,29 +15,30 @@
         "issues": "https://github.com/trikzon/shuffle/issues",
         "sources": "https://github.com/trikzon/shuffle"
       },
-      "license": "MIT",
-      "icon": "assets/shuffle/icon.png"
+      "icon": "assets/shuffle/icon.png",
+      "license": "LGPL-3.0-or-later"
     },
     "intermediate_mappings": "net.fabricmc:intermediary",
-    "environment": "*",
     "entrypoints": {
-      "client_init": [
-        "com.trikzon.shuffle.client.quilt.ShuffleClientQuilt"
-      ]
+      "client_init": "com.diontryban.mods.shuffle.client.quilt.ShuffleClientQuilt"
     },
     "depends": [
       {
         "id": "quilt_loader",
-        "version": "*"
+        "versions": ">=0.17.6-"
       },
       {
-        "id": "quilt_base",
-        "version": "*"
+        "id": "quilted_fabric_api",
+        "versions": ">=5.0.0-"
       },
       {
         "id": "minecraft",
-        "version": ">=1.19"
+        "versions": ">=1.19.3"
       }
     ]
-  }
+  },
+  "mixin": [
+    "shuffle.mixins.json",
+    "shuffle.quilt.mixins.json"
+  ]
 }

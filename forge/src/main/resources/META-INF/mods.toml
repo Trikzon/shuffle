@@ -1,28 +1,33 @@
-modLoader = "javafml"
-loaderVersion = "[42,)"
-issueTrackerURL = "https://github.com/trikzon/shuffle/issues"
-license = "MIT; Assets licensed as All Rights Reserved"
+modLoader="javafml" #mandatory
+loaderVersion="[44,)" #mandatory
+license="LGPL-3.0-or-later"
+issueTrackerURL="https://github.com/Trikzon/shuffle/issues" #optional
 
-[[mods]]
-modId = "shuffle"
-version = "${version}"
-displayName = "Shuffle"
-authors = "Trikzon"
-description = '''
-Place random blocks from your hotbar with ease!
+[[mods]] #mandatory
+modId="shuffle" #mandatory
+version="${file.jarVersion}" #mandatory
+displayName="Shuffle" #mandatory
+#updateJSONURL="" #optional
+displayURL="https://modrinth.com/mod/shuffle" #optional
+logoFile="assets/shuffle/icon.png" #optional
+#credits="" #optional
+authors="Trikzon" #optional
+description='''
+Randomly place blocks from your hotbar while building.
 '''
-#logoFile = ""
+
+[[dependencies.shuffle]] #optional
+    modId="forge" #mandatory
+    mandatory=true #mandatory
+    versionRange="[44,)" #mandatory
+    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
+    ordering="NONE"
+    # Side this dependency is applied on - BOTH, CLIENT or SERVER
+    side="BOTH"
 
 [[dependencies.shuffle]]
-modId = "forge"
-mandatory = true
-versionRange = "[42,)"
-ordering = "NONE"
-side = "BOTH"
-
-[[dependencies.shuffle]]
-modId = "minecraft"
-mandatory = true
-versionRange = "[1.19.1,)"
-ordering = "NONE"
-side = "BOTH"
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.19.3,1.20)"
+    ordering="NONE"
+    side="BOTH"
