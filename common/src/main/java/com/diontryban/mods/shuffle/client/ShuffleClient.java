@@ -31,7 +31,7 @@ public class ShuffleClient {
     private static final KeyMapping KEY = KeyMappingRegistry.registerKeyMapping(
             new ResourceLocation(Shuffle.MOD_ID, "shuffle"),
             GLFW.GLFW_KEY_R,
-            "key.categories." + Shuffle.MOD_ID
+            Shuffle.MOD_ID
     );
 
     private static boolean shuffle = false;

@@ -24,6 +24,8 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
     modApi "com.terraformersmc:modmenu:${modmenu_version}"
 
+    modImplementation "com.diontryban.mods:ash-fabric-${minecraft_version}:${ash_version}"
+
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
 
     implementation project(':Common')
@@ -69,10 +71,15 @@ publishing {
             from components.java
         }
     }
-
     repositories {
-        maven {
-            url 'file://' + System.getenv('local_maven')
+        if (System.getenv("DIONTRYBAN_MAVEN_TOKEN") != null) {
+            maven {
+                url = 'https://maven.diontryban.com/releases'
+                credentials {
+                    username = 'trikzon'
+                    password = System.getenv("DIONTRYBAN_MAVEN_TOKEN")
+                }
+            }
         }
     }
 }

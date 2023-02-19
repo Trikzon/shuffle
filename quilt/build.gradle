@@ -23,6 +23,7 @@ dependencies {
     modImplementation "org.quiltmc:quilt-loader:${quilt_loader_version}"
     modApi "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${quilt_version}"
     modApi "com.terraformersmc:modmenu:${modmenu_version}"
+    modImplementation "com.diontryban.mods:ash-quilt-${minecraft_version}:${ash_version}"
 
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
 
@@ -70,8 +71,14 @@ publishing {
     }
 
     repositories {
-        maven {
-            url 'file://' + System.getenv('local_maven')
+        if (System.getenv("DIONTRYBAN_MAVEN_TOKEN") != null) {
+            maven {
+                url = 'https://maven.diontryban.com/releases'
+                credentials {
+                    username = 'trikzon'
+                    password = System.getenv("DIONTRYBAN_MAVEN_TOKEN")
+                }
+            }
         }
     }
 }

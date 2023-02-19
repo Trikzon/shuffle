@@ -2,35 +2,32 @@
     "schemaVersion": 1,
     "id": "shuffle",
     "version": "${version}",
-  
     "name": "Shuffle",
     "description": "Randomly place blocks from your hotbar while building.",
     "authors": [
-      "Trikzon"
+        "Trikzon"
     ],
     "contact": {
-      "homepage": "https://modrinth.com/mod/shuffle",
-      "sources": "https://github.com/Trikzon/shuffle"
+        "homepage": "https://modrinth.com/mod/shuffle",
+        "sources": "https://github.com/Trikzon/shuffle"
     },
-  
     "license": "LGPL-3.0-or-later",
     "icon": "assets/shuffle/icon.png",
-  
     "environment": "*",
     "entrypoints": {
-      "client": [
-        "com.diontryban.mods.shuffle.client.fabric.ShuffleClientFabric"
-      ]
+        "client": [
+            "com.diontryban.mods.shuffle.client.fabric.ShuffleClientFabric"
+        ]
     },
     "mixins": [
-      "shuffle.mixins.json",
-      "shuffle.fabric.mixins.json"
+        "shuffle.mixins.json",
+        "shuffle.fabric.mixins.json"
     ],
-  
     "depends": {
-      "fabric": "*",
-      "minecraft": "1.19.3",
-      "java": ">=17"
+        "fabric": "*",
+        "minecraft": "1.19.3",
+        "java": ">=17",
+        "ash": "*"
     },
     "suggests": {
     }

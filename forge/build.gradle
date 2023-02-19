@@ -73,6 +73,8 @@ dependencies {
 
     annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
 
+    implementation fg.deobf("com.diontryban.mods:ash-forge-${minecraft_version}:${ash_version}")
+
     compileOnly project(':Common')
 }
 
@@ -97,8 +99,14 @@ publishing {
         }
     }
     repositories {
-        maven {
-            url 'file://' + System.getenv('local_maven')
+        if (System.getenv("DIONTRYBAN_MAVEN_TOKEN") != null) {
+            maven {
+                url = 'https://maven.diontryban.com/releases'
+                credentials {
+                    username = 'trikzon'
+                    password = System.getenv("DIONTRYBAN_MAVEN_TOKEN")
+                }
+            }
         }
     }
 }

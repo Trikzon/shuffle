@@ -45,6 +45,9 @@ subprojects {
             name = 'ParchmentMC'
             url = 'https://maven.parchmentmc.org'
         }
+        maven {
+            url = 'https://maven.diontryban.com/releases'
+        }
     }
 
     tasks.withType(JavaCompile).configureEach {

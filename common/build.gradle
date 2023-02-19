@@ -11,8 +11,11 @@ minecraft {
 }
 
 dependencies {
-     compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.5'
-     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+    compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.5'
+
+    compileOnly group: 'com.diontryban.mods', 'name': "ash-common-${minecraft_version}", version: ash_version
+
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
 }
 
 processResources {
@@ -32,10 +35,15 @@ publishing {
             from components.java
         }
     }
-
     repositories {
-        maven {
-            url 'file://' + System.getenv('local_maven')
+        if (System.getenv("DIONTRYBAN_MAVEN_TOKEN") != null) {
+            maven {
+                url = 'https://maven.diontryban.com/releases'
+                credentials {
+                    username = 'trikzon'
+                    password = System.getenv("DIONTRYBAN_MAVEN_TOKEN")
+                }
+            }
         }
     }
 }
