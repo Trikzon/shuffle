@@ -7,7 +7,7 @@ Shuffle allows players to place blocks randomly from their hotbar. This can help
 
 ---
 
-Report any issues on [GitHub](https://github.com/Trikzon/modid/issues). Chat on [Discord](https://discord.gg/aqXkvbJ) in the `#mc-mods` channel.
+Report any issues on [GitHub](https://github.com/Trikzon/modid/issues). Chat on [Discord](https://discord.gg/aUwZKagWh2) in the `#mc-mods` channel.
 
 Support the development of my mods on [Ko-fi](https://ko-fi.com/X7X8D56YI).
 
