@@ -1,6 +1,6 @@
 # Shuffle
 [![](http://cf.way2muchnoise.eu/full_360916_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/shuffle)
-[![](https://modrinth-utils.vercel.app/api/badge/downloads/?id=shuffle&logo=true)](https://www.modrinth.com/mod/shuffle)
+[![](https://img.shields.io/modrinth/dt/shuffle?logo=modrinth&style=flat)](https://www.modrinth.com/mod/shuffle)
 [![](http://cf.way2muchnoise.eu/versions/360916.svg)](https://www.curseforge.com/minecraft/mc-mods/shuffle)
 
 Shuffle allows players to place blocks randomly from their hotbar. This can help speed up the building process and add variety to buildings.
