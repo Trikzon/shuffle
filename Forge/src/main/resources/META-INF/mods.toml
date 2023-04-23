@@ -35,6 +35,6 @@ Randomly place blocks from your hotbar while building.
 [[dependencies.shuffle]]
 modId="ash"
 mandatory=true
-versionRange="*"
+versionRange="[1.0.0-rc.1,2.0.0)"
 ordering="NONE"
 side="BOTH"

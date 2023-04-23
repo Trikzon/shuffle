@@ -17,7 +17,7 @@
  * along with Shuffle. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.diontryban.mods.shuffle.client;
+package com.diontryban.shuffle.client;
 
 import com.diontryban.shuffle.client.ShuffleClient;
 import net.fabricmc.api.ClientModInitializer;

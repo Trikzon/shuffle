@@ -33,16 +33,14 @@
       },
       {
         "id": "minecraft",
-        "versions": ">=1.19.3"
+        "versions": "^1.19.3"
       },
       {
         "id": "ash",
-        "versions": "*"
+        "versions": "^1.0.0-rc.1"
       }
     ]
   },
   "mixin": [
-    "shuffle.mixins.json",
-    "shuffle.quilt.mixins.json"
   ]
 }

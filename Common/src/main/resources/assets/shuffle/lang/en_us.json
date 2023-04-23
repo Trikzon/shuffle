@@ -1,6 +1,6 @@
 {
     "key.categories.shuffle": "Shuffle",
     "key.shuffle.shuffle": "Shuffle Mode Toggle",
-    "message.shuffle.enable": "Shuffle Mode: Enabled",
-    "message.shuffle.disable": "Shuffle Mode: Disabled"
+    "message.shuffle.enable": "Shuffle Mode: §aEnabled§r",
+    "message.shuffle.disable": "Shuffle Mode: §cDisabled§r"
 }
