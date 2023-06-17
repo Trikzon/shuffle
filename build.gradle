@@ -5,6 +5,9 @@ plugins {
 
 subprojects {
     apply plugin: 'java'
+
+    project.ext.mod_version = project.version
+    project.version = "${project.version}+${project.minecraft_version}"
     
     java.toolchain.languageVersion = JavaLanguageVersion.of(17)
     java.withSourcesJar()

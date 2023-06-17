@@ -98,7 +98,7 @@ modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = project.modrinth_id
     versionNumber = "${project.version}-quilt"
-    versionName = "[Quilt ${project.minecraft_version}] v${project.version}"
+    versionName = "[Quilt ${project.minecraft_version}] v${project.mod_version}"
     versionType = project.version_type
     changelog = rootProject.file('MINI_CHANGELOG.md').text
     uploadFile = remapJar
@@ -117,7 +117,7 @@ curseforge {
         changelog = rootProject.file('MINI_CHANGELOG.md').text
         changelogType = 'markdown'
         mainArtifact(remapJar) {
-            it.displayName = "[Quilt ${project.minecraft_version}] v${project.version}"
+            it.displayName = "[Quilt ${project.minecraft_version}] v${project.mod_version}"
         }
         addGameVersion 'Quilt'
         if (project.is_client.toBoolean()) { addGameVersion 'Client' }

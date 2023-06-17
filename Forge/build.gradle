@@ -125,7 +125,7 @@ modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = project.modrinth_id
     versionNumber = "${project.version}-forge"
-    versionName = "[Forge ${project.minecraft_version}] v${project.version}"
+    versionName = "[Forge ${project.minecraft_version}] v${project.mod_version}"
     versionType = project.version_type
     changelog = rootProject.file('MINI_CHANGELOG.md').text
     uploadFile = jar
@@ -144,7 +144,7 @@ curseforge {
         changelog = rootProject.file('MINI_CHANGELOG.md').text
         changelogType = 'markdown'
         mainArtifact(jar) {
-            it.displayName = "[Forge ${project.minecraft_version}] v${project.version}"
+            it.displayName = "[Forge ${project.minecraft_version}] v${project.mod_version}"
         }
         addGameVersion 'Forge'
         if (project.is_client.toBoolean()) { addGameVersion 'Client' }
