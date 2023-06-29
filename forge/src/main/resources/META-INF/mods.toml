@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[46,)" #mandatory
+loaderVersion="[47,)" #mandatory
 license="LGPL-3.0-or-later"
 issueTrackerURL="https://github.com/Trikzon/shuffle/issues" #optional
 
@@ -19,7 +19,7 @@ Randomly place blocks from your hotbar while building.
 [[dependencies.shuffle]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
-    versionRange="[46,)" #mandatory
+    versionRange="[47,)" #mandatory
     # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
     ordering="NONE"
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
@@ -28,13 +28,13 @@ Randomly place blocks from your hotbar while building.
 [[dependencies.shuffle]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.20,1.21)"
+    versionRange="[1.20.1,1.21)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.shuffle]]
     modId="ash_api"
     mandatory=true
-    versionRange="[2.1.0,3.0.0-alpha.1)"
+    versionRange="[3.0.0,)"
     ordering="NONE"
     side="BOTH"
