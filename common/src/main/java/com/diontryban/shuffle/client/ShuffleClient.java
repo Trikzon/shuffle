@@ -20,9 +20,11 @@
 package com.diontryban.shuffle.client;
 
 import com.diontryban.ash.api.client.event.ClientTickEvents;
+import com.diontryban.ash.api.client.gui.screens.ModOptionsScreenRegistry;
 import com.diontryban.ash.api.client.input.KeyMappingRegistry;
 import com.diontryban.ash.api.event.UseBlockEvent;
 import com.diontryban.shuffle.Shuffle;
+import com.diontryban.shuffle.client.gui.screens.ShuffleOptionsScreen;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -30,6 +32,9 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.random.WeightedEntry;
+import net.minecraft.util.random.WeightedRandom;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -43,10 +48,10 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.function.BiFunction;
+import java.util.function.ToIntBiFunction;
 
 public class ShuffleClient {
-    private static final Random RANDOM = new Random();
     private static final KeyMapping KEY = KeyMappingRegistry.registerKeyMapping(
             new ResourceLocation(Shuffle.MOD_ID, "shuffle"),
             GLFW.GLFW_KEY_R,
@@ -58,6 +63,7 @@ public class ShuffleClient {
     private static int slotToSwitchTo = -1;
 
     public static void init() {
+        ModOptionsScreenRegistry.registerModOptionsScreen(Shuffle.CONFIG, ShuffleOptionsScreen::new);
         ClientTickEvents.registerStart(ShuffleClient::onClientStartTick);
         UseBlockEvent.register(ShuffleClient::onRightClickBlock);
     }
@@ -97,22 +103,71 @@ public class ShuffleClient {
             final Item itemInHand = player.getItemInHand(hand).getItem();
             // Only shuffle if the held item is a block, therefore it's being placed.
             if (Block.byItem(itemInHand) != Blocks.AIR) {
-                // Collect the slot ids that contain BlockItems.
-                final List<Integer> slotsWithBlocks = new ArrayList<>();
-                final NonNullList<ItemStack> items = player.getInventory().items;
+                var items = player.getInventory().items;
+                var random = level.random;
 
-                for (int i = 0; i <= 8; i++) {
-                    final Item item = items.get(i).getItem();
-                    if (Block.byItem(item) != Blocks.AIR) {
-                        slotsWithBlocks.add(i);
-                    }
-                }
-
-                if (slotsWithBlocks.size() > 0) {
-                    slotToSwitchTo = slotsWithBlocks.get(RANDOM.nextInt(slotsWithBlocks.size()));
-                }
+                // Check whether to use weighted or random logic
+                slotToSwitchTo = Shuffle.CONFIG.get().useWeightedRandom ?
+                        switchSlotWeighted(items, random) :
+                        switchSlotRandom(items, random);
             }
         }
         return InteractionResult.PASS;
+    }
+
+    /**
+     * Switch to a given slot on the hotbar randomly.
+     *
+     * @param items the list of items representing the player's hotbar, checks the first 9 slots
+     * @param random a random instance
+     * @return the index of the slot to switch to, or {@code -1} if not to switch
+     */
+    private static int switchSlotRandom(NonNullList<ItemStack> items, RandomSource random) {
+        return switchSlotLogic(items, random,
+                (idx, stack) -> idx,
+                (list, rand) -> list.get(rand.nextInt(list.size()))
+        );
+    }
+
+    /**
+     * Switch to a given slot on the hotbar randomly using the item count as a weight.
+     *
+     * @param items the list of items representing the player's hotbar, checks the first 9 slots
+     * @param random a random instance
+     * @return the index of the slot to switch to, or {@code -1} if not to switch
+     */
+    private static int switchSlotWeighted(NonNullList<ItemStack> items, RandomSource random) {
+        return switchSlotLogic(items, random,
+                (idx, stack) -> WeightedEntry.wrap(idx, stack.getCount()),
+                (list, rand) -> WeightedRandom.getRandomItem(rand, list)
+                        .map(WeightedEntry.Wrapper::getData)
+                        .orElse(-1)
+        );
+    }
+
+    /**
+     * Switch to a given slot on the hotbar.
+     *
+     * @param items the list of items representing the player's hotbar, checks the first 9 slots
+     * @param random a random instance
+     * @param createEntry creates an entry to store in the list
+     * @param pickRandom a function to pick a random element from a list
+     * @return the index of the slot to switch to, or {@code -1} if not to switch
+     * @param <T> the type of the data stored in the list
+     */
+    private static <T> int switchSlotLogic(NonNullList<ItemStack> items, RandomSource random, BiFunction<Integer, ItemStack, T> createEntry, ToIntBiFunction<List<T>, RandomSource> pickRandom) {
+        final List<T> slotsWithBlocks = new ArrayList<>();
+
+        // Check hotbar and collect all items that can be placed
+        for (int idx = 0; idx <= 8; idx++) {
+            var stack = items.get(idx);
+            // Make sure that the item can be placed as a block
+            if (Block.byItem(stack.getItem()) != Blocks.AIR) {
+                slotsWithBlocks.add(createEntry.apply(idx, stack));
+            }
+        }
+
+        // Pick random element if available, otherwise set to -1
+        return !slotsWithBlocks.isEmpty() ? pickRandom.applyAsInt(slotsWithBlocks, random) : -1;
     }
 }
