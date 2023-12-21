@@ -2,5 +2,7 @@
     "key.categories.shuffle": "Shuffle",
     "key.shuffle.shuffle": "Shuffle Mode Toggle",
     "message.shuffle.enable": "Shuffle Mode: §aEnabled§r",
-    "message.shuffle.disable": "Shuffle Mode: §cDisabled§r"
+    "message.shuffle.disable": "Shuffle Mode: §cDisabled§r",
+    "shuffle.options.use_weighted_random": "Pick Blocks by Stack Count",
+    "shuffle.options.use_weighted_random.tooltip": "When picking a random block to place, the amount in the stack will affect the chance of a block being placed."
 }
