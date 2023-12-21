@@ -19,10 +19,11 @@
 
 package com.diontryban.shuffle.client;
 
-import com.diontryban.ash_api.modloader.FabricClientModInitializer;
+import com.diontryban.ash_api.modloader.NeoForgeClientModInitializer;
+import com.diontryban.shuffle.Shuffle;
 
-public class ShuffleClientFabric extends FabricClientModInitializer {
-    public ShuffleClientFabric() {
-        super(ShuffleClient::new);
+public class ShuffleClientNeoForge extends NeoForgeClientModInitializer {
+    public ShuffleClientNeoForge() {
+        super(Shuffle.MOD_ID, ShuffleClient::new);
     }
 }

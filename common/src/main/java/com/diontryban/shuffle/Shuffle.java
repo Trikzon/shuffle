@@ -19,7 +19,7 @@
 
 package com.diontryban.shuffle;
 
-import com.diontryban.ash.api.options.ModOptionsManager;
+import com.diontryban.ash_api.options.ModOptionsManager;
 import com.diontryban.shuffle.options.ShuffleOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,5 +28,5 @@ public class Shuffle {
     public static final String MOD_ID = "shuffle";
     public static final String MOD_NAME = "Shuffle";
     public static final Logger LOG = LoggerFactory.getLogger(MOD_NAME);
-    public static final ModOptionsManager<ShuffleOptions> CONFIG = new ModOptionsManager<>(MOD_ID, ShuffleOptions.class);
+    public static final ModOptionsManager<ShuffleOptions> OPTIONS = new ModOptionsManager<>(MOD_ID, ShuffleOptions.class);
 }

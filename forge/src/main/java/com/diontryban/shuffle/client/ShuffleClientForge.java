@@ -19,15 +19,11 @@
 
 package com.diontryban.shuffle.client;
 
-import com.diontryban.ash.api.modloader.forge.ForgeModLoader;
+import com.diontryban.ash_api.modloader.ForgeClientModInitializer;
 import com.diontryban.shuffle.Shuffle;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-public class ShuffleClientForge {
-    public static void init() {
-        ForgeModLoader.registerMod(Shuffle.MOD_ID, ModLoadingContext.get(), FMLJavaModLoadingContext.get());
-
-        ShuffleClient.init();
+public class ShuffleClientForge extends ForgeClientModInitializer {
+    public ShuffleClientForge() {
+        super(Shuffle.MOD_ID, ShuffleClient::new);
     }
 }

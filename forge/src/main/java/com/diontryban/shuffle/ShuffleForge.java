@@ -19,14 +19,13 @@
 
 package com.diontryban.shuffle;
 
+import com.diontryban.ash_api.modloader.ForgeModInitializer;
 import com.diontryban.shuffle.client.ShuffleClientForge;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod(Shuffle.MOD_ID)
-public class ShuffleForge {
+public class ShuffleForge extends ForgeModInitializer {
     public ShuffleForge() {
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> ShuffleClientForge::init);
+        super(Shuffle.MOD_ID, null, ShuffleClientForge::new);
     }
 }

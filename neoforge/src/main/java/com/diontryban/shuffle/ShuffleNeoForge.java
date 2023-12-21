@@ -17,14 +17,15 @@
  * along with Shuffle. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.diontryban.shuffle.client;
+package com.diontryban.shuffle;
 
-import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
+import com.diontryban.ash_api.modloader.NeoForgeModInitializer;
+import com.diontryban.shuffle.client.ShuffleClientNeoForge;
+import net.neoforged.fml.common.Mod;
 
-public class ShuffleClientQuilt implements ClientModInitializer {
-    @Override
-    public void onInitializeClient(ModContainer mod) {
-        ShuffleClient.init();
+@Mod(Shuffle.MOD_ID)
+public class ShuffleNeoForge extends NeoForgeModInitializer {
+    public ShuffleNeoForge() {
+        super(Shuffle.MOD_ID, null, ShuffleClientNeoForge::new);
     }
 }
