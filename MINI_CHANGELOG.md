@@ -1,4 +1,3 @@
-## v21.0.1
-- Fix options screen rendering duplicate option buttons (Ash API fix)
+- Update build scripts using [MDK Generator](https://github.com/Trikzon/mdk-generator). No functional changes.
 
 A full changelog is hosted on [GitHub](https://github.com/Trikzon/shuffle/blob/1.21/CHANGELOG.md)

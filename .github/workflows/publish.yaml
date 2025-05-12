@@ -3,6 +3,9 @@ on:
   push:
     tags:
       - "*"
+env:
+  DIONTRYBAN_MAVEN_USER: github
+  DIONTRYBAN_MAVEN_TOKEN: ${{ secrets.DIONTRYBAN_MAVEN_TOKEN }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -43,8 +46,7 @@ jobs:
           name: "[NeoForge ${{ steps.gradle_props.outputs.minecraft_version }}] v${{ steps.gradle_props.outputs.version }}"
           version: "${{ steps.gradle_props.outputs.version }}-neoforge"
           changelog-file: "MINI_CHANGELOG.md"
-          dependencies: |
-            ash-api
+          dependencies: "ash-api"
       - name: Publish Fabric to CurseForge and Modrinth
         uses: Kir-Antipov/mc-publish@v3.3  # https://github.com/Kir-Antipov/mc-publish
         with:
@@ -64,5 +66,14 @@ jobs:
           name: "[Fabric ${{ steps.gradle_props.outputs.minecraft_version }}] v${{ steps.gradle_props.outputs.version }}"
           version: "${{ steps.gradle_props.outputs.version }}-fabric"
           changelog-file: "MINI_CHANGELOG.md"
-          dependencies: |
-            ash-api
+          dependencies: "ash-api"
+      - name: Publish All to Maven
+        run: ./gradlew publish
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            neoforge/build/libs/!(*-@(dev|sources|javadoc)).jar
+            fabric/build/libs/!(*-@(dev|sources|javadoc)).jar
+          body_path: MINI_CHANGELOG.md

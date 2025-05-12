@@ -1,57 +1,54 @@
 plugins {
     id 'multiloader-loader'
-    id 'net.neoforged.moddev' version '0.1.102'
+    id 'net.neoforged.moddev'
 }
 
 neoForge {
     version = project.neoforge_version
 
-    def at = project(":common").file('src/main/resources/META-INF/accesstransformer.cfg')
+    validateAccessTransformers = true
+
+    def at = project(':common').file('src/main/resources/META-INF/accesstransformer.cfg')
     if (at.exists()) {
-        accessTransformers.add(at.absolutePath);
+        accessTransformers.add(at.absolutePath)
+    }
+
+    parchment {
+        minecraftVersion = project.parchment_minecraft_version
+        mappingsVersion = project.parchment_version
     }
 
     runs {
+        configureEach {
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            // Unify the run config names with fabric.
+            ideName = "NeoForge ${it.name.capitalize()} (${project.path})"
+        }
+
         client {
             client()
-
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        server {
-            server()
-
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-            programArgument '--nogui'
-        }
-
-        gameTestServer {
-            type = "gameTestServer"
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
 
         data {
             data()
-
-            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
         }
 
-        configureEach {
-            systemProperty 'forge.logging.markers', 'REGISTRIES'
-
-            logLevel = org.slf4j.event.Level.DEBUG
+        server {
+            server()
         }
     }
 
     mods {
-        "${mod_id}" {
+        "${project.mod_id}" {
             sourceSet(sourceSets.main)
         }
     }
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
-
 dependencies {
-    implementation "com.diontryban.ash_api:ash_api-neoforge:${ash_version}"
+    if (project.ash_version != "") {
+        implementation "com.diontryban.ash_api:ash_api-neoforge:${project.ash_version}"
+    }
 }
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
