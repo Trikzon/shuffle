@@ -37,7 +37,7 @@ loom {
     }
 
     mixin {
-        defaultRefmapName.set("${mod_name}.refmap.json")
+        defaultRefmapName.set("${project.mod_id}.refmap.json")
     }
 
     runs {

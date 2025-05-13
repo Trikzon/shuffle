@@ -50,17 +50,19 @@ import java.util.function.BiFunction;
 import java.util.function.ToIntBiFunction;
 
 public class ShuffleClient {
-    private static final KeyMapping KEY = KeyMappingRegistry.register(
-            ResourceLocation.fromNamespaceAndPath(Shuffle.MOD_ID, "shuffle"),
-            GLFW.GLFW_KEY_R,
-            Shuffle.MOD_ID
-    );
+    private static KeyMapping keyMapping;
 
     private static boolean shuffle = false;
     private static boolean keyWasDown = false;
     private static int slotToSwitchTo = -1;
 
     public static void init() {
+        keyMapping = KeyMappingRegistry.register(
+                ResourceLocation.fromNamespaceAndPath(Shuffle.MOD_ID, "shuffle"),
+                GLFW.GLFW_KEY_R,
+                Shuffle.MOD_ID
+        );
+
         ModOptionsScreenRegistry.register(Shuffle.OPTIONS, ShuffleOptionsScreen::new);
         ClientTickEvent.Pre.register(ShuffleClient::onClientTickPre);
         UseBlockEvent.register(ShuffleClient::onUseBlock);
@@ -70,7 +72,7 @@ public class ShuffleClient {
         final var player = client.player;
         if (player == null) { return; }
 
-        if (KEY.isDown() && !keyWasDown) {
+        if (keyMapping.isDown() && !keyWasDown) {
             keyWasDown = true;
 
             shuffle = !shuffle;
@@ -87,7 +89,7 @@ public class ShuffleClient {
                     player.playSound(SoundEvents.TRIPWIRE_CLICK_ON, 0.5f, 1.0f);
                 }
             }
-        } else if (!KEY.isDown() && keyWasDown) {
+        } else if (!keyMapping.isDown() && keyWasDown) {
             keyWasDown = false;
         }
 
