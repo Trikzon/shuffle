@@ -1,4 +1,7 @@
 # Changelog
+## v21.0.4
+- Add hotbar slot locking [#15](https://github.com/Trikzon/shuffle/issues/15), [#16](https://github.com/Trikzon/shuffle/pull/16). Thank you, @ACCBDD, and @ThatChair.
+
 ## v21.0.3
 - Fix race conditon on NeoForge when registering KeyMappings.
 
