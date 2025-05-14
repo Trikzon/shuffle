@@ -27,4 +27,6 @@ public class ShuffleOptions extends ModOptions {
     public boolean useWeightedRandom = false;
     @SerializedName("play_sound_effects")
     public boolean playSoundEffects = true;
+    @SerializedName("restricted_slots")
+    public boolean[] slotStates = { true, true, true, true, true, true, true, true, true };
 }
