@@ -174,7 +174,7 @@ public class ShuffleClient {
         for (var i = 0; i <= 8; i++) {
             final var stack = items.get(i);
             // Make sure that the item can be placed as a block.
-            if (Block.byItem(stack.getItem()) != Blocks.AIR && Shuffle.OPTIONS.get().slotStates[i]) {
+            if (Block.byItem(stack.getItem()) != Blocks.AIR && !Shuffle.OPTIONS.get().lockedSlots[i]) {
                 slotsWithBlocks.add(createEntry.apply(i, stack));
             }
         }
