@@ -1,4 +1,7 @@
 # Changelog
+## v21.1.0
+- Update to MC 1.21.1.
+
 ## v21.0.4
 - Add hotbar slot locking [#15](https://github.com/Trikzon/shuffle/issues/15), [#16](https://github.com/Trikzon/shuffle/pull/16). Thank you, @ACCBDD, and @ThatChair.
 
@@ -12,7 +15,7 @@
 - Fix options screen rendering duplicate option buttons (Ash API fix)
 
 ## v21.0.0
-- Update to MC 1.21
+- Update to MC 1.21.
 
 ## v20.6.0
 - Update to MC 1.20.6.

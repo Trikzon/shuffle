@@ -10,7 +10,7 @@ neoForge {
 
     def at = project(':common').file('src/main/resources/META-INF/accesstransformer.cfg')
     if (at.exists()) {
-        accessTransformers.add(at.absolutePath)
+        accessTransformers.from(at.absolutePath)
     }
 
     parchment {
@@ -49,6 +49,8 @@ dependencies {
     if (project.ash_version != "") {
         implementation "com.diontryban.ash_api:ash_api-neoforge:${project.ash_version}"
     }
+
+
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }

@@ -28,6 +28,8 @@ dependencies {
     if (project.modmenu_version != "") {
         modApi "com.terraformersmc:modmenu:${project.modmenu_version}"
     }
+
+
 }
 
 loom {

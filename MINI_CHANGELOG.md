@@ -1,3 +1,3 @@
-- Add hotbar slot locking [#15](https://github.com/Trikzon/shuffle/issues/15), [#16](https://github.com/Trikzon/shuffle/pull/16). Thank you, @ACCBDD, and @ThatChair.
+- Update to MC 1.21.1.
 
-A full changelog is hosted on [GitHub](https://github.com/Trikzon/shuffle/blob/1.21/CHANGELOG.md)
+A full changelog is hosted on [GitHub](https://github.com/Trikzon/shuffle/blob/1.21.1/CHANGELOG.md)

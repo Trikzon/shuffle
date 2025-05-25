@@ -27,6 +27,8 @@ dependencies {
     if (project.ash_version != "") {
         compileOnly group: 'com.diontryban.ash_api', name: 'ash_api-common', version: project.ash_version
     }
+
+
 }
 
 configurations {
