@@ -2,18 +2,15 @@ package com.diontryban.shuffle.client.gui.widgets;
 
 import com.diontryban.ash_api.options.ModOptionsManager;
 import com.diontryban.shuffle.options.ShuffleOptions;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Matrix4f;
+import net.minecraft.util.ARGB;
 
 public class HotbarLockButtonsWidget extends AbstractWidget {
     private final ModOptionsManager<ShuffleOptions> options;
@@ -46,16 +43,16 @@ public class HotbarLockButtonsWidget extends AbstractWidget {
                 0xFFFFFF
         );
 
-        guiGraphics.blitSprite(HOTBAR_SPRITE, offset + this.getX(), this.getY(), 182, 22);
+        guiGraphics.blitSprite(RenderType::guiTextured, HOTBAR_SPRITE, offset + this.getX(), this.getY(), 182, 22);
 
         for (int slot = 0; slot < 9; slot++) {
             final var slotX = getSlotX(slot);
             final var hovering = mouseX >= slotX && mouseX < slotX + 20 && mouseY >= this.getY() && mouseY < this.getY() + 20;
 
             if (this.options.get().lockedSlots[slot]) {
-                guiGraphics.blitSprite(LOCKED_SPRITE, slotX + 5, this.getY() + 5, 10, 14);
+                guiGraphics.blitSprite(RenderType::guiTextured, LOCKED_SPRITE, slotX + 5, this.getY() + 5, 10, 14);
             } else if (hovering) {
-                blitSpriteAlpha(guiGraphics, LOCKED_SPRITE, slotX + 5, this.getY() + 5, 10, 14, 0.5f);
+                guiGraphics.blitSprite(RenderType::guiTextured, LOCKED_SPRITE, slotX + 5, this.getY() + 5, 10, 14, ARGB.color(ARGB.as8BitChannel(0.5f), -1));
             }
 
             if (hovering) {
@@ -92,21 +89,5 @@ public class HotbarLockButtonsWidget extends AbstractWidget {
 
     private int getSlotX(int slot) {
         return offset + this.getX() + 1 + (20 * slot);
-    }
-
-    private void blitSpriteAlpha(GuiGraphics guiGraphics, ResourceLocation sprite, int x, int y, int width, int height, float alpha) {
-        TextureAtlasSprite textureAtlasSprite = Minecraft.getInstance().getGuiSprites().getSprite(sprite);
-
-        RenderSystem.setShaderTexture(0, textureAtlasSprite.atlasLocation());
-        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
-        RenderSystem.enableBlend();
-        Matrix4f matrix4f = guiGraphics.pose().last().pose();
-        BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-        bufferbuilder.addVertex(matrix4f, x, y, 0).setUv(textureAtlasSprite.getU0(), textureAtlasSprite.getV0()).setColor(1.0f, 1.0f, 1.0f, alpha);
-        bufferbuilder.addVertex(matrix4f, x, y + height, 0).setUv(textureAtlasSprite.getU0(), textureAtlasSprite.getV1()).setColor(1.0f, 1.0f, 1.0f, alpha);
-        bufferbuilder.addVertex(matrix4f, x + width, y + height, 0).setUv(textureAtlasSprite.getU1(), textureAtlasSprite.getV1()).setColor(1.0f, 1.0f, 1.0f, alpha);
-        bufferbuilder.addVertex(matrix4f, x + width, y, 0).setUv(textureAtlasSprite.getU1(), textureAtlasSprite.getV0()).setColor(1.0f, 1.0f, 1.0f, alpha);
-        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
-        RenderSystem.disableBlend();
     }
 }
