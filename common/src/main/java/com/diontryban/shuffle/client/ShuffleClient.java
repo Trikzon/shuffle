@@ -32,8 +32,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.random.WeightedEntry;
-import net.minecraft.util.random.WeightedRandom;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -44,10 +43,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.ToIntBiFunction;
 
 public class ShuffleClient {
     private static KeyMapping keyMapping;
@@ -94,7 +90,7 @@ public class ShuffleClient {
         }
 
         if (slotToSwitchTo >= 0 && slotToSwitchTo <= 8) {
-            player.getInventory().selected = slotToSwitchTo;
+            player.getInventory().setSelectedSlot(slotToSwitchTo);
             slotToSwitchTo = -1;
         }
     }
@@ -109,7 +105,7 @@ public class ShuffleClient {
             final var itemInHand = player.getItemInHand(hand).getItem();
             // Only shuffle if the held item is a block, therefore it's being placed.
             if (Block.byItem(itemInHand) != Blocks.AIR) {
-                final var items = player.getInventory().items;
+                final var items = player.getInventory().getNonEquipmentItems();
 
                 // Check whether to use weighted or random logic
                 if (Shuffle.OPTIONS.get().useWeightedRandom) {
@@ -123,63 +119,53 @@ public class ShuffleClient {
     }
 
     /**
-     * Switch to a given slot on the hotbar randomly.
+     * Randomly choose a slot to switch to.
      *
      * @param items the list of items representing the player's hotbar; checks the first 9 slots
      * @param random a random instance
      * @return the index of the slot to switch to, or {@code -1} if not to switch
      */
     private static int switchSlotRandom(NonNullList<ItemStack> items, RandomSource random) {
-        return switchSlotLogic(items, random,
-                (i, stack) -> i,
-                (list, rand) -> list.get(rand.nextInt(list.size()))
-        );
+        return switchSlotLogic(items, random, (slotIdx, stack) -> 1);
     }
 
     /**
-     * Switch to a given slot on the hotbar randomly using the item count as a weight.
+     * Randomly choose a slot to switch to using the item's count as a weight.
      *
      * @param items the list of items representing the player's hotbar; checks the first 9 slots
      * @param random a random instance
      * @return the index of the slot to switch to, or {@code -1} if not to switch
      */
     private static int switchSlotWeighted(NonNullList<ItemStack> items, RandomSource random) {
-        return switchSlotLogic(items, random,
-                (i, stack) -> WeightedEntry.wrap(i, stack.getCount()),
-                (list, rand) -> WeightedRandom.getRandomItem(rand, list)
-                        .map(WeightedEntry.Wrapper::data)
-                        .orElse(-1)
-        );
+        return switchSlotLogic(items, random, (slotIdx, stack) -> stack.getCount());
     }
 
     /**
-     * Switch to a given slot on the hotbar.
+     * Choose a slot to switch to using a weight per slot.
      *
      * @param items the list of items representing the player's hotbar; checks the first 9 slots.
      * @param random a random instance
-     * @param createEntry creates an entry to store in the list
-     * @param pickRandom a function to pick a random element from a list
+     * @param calculateWeight a function to get the weight of a given slot
      * @return the index of the slot to switch to, or {@code -1} if not to switch
-     * @param <T> the type of the data stored in the list
      */
-    private static <T> int switchSlotLogic(
+    private static int switchSlotLogic(
             NonNullList<ItemStack> items,
             RandomSource random,
-            BiFunction<Integer, ItemStack, T> createEntry,
-            ToIntBiFunction<List<T>, RandomSource> pickRandom
+            BiFunction<Integer, ItemStack, Integer> calculateWeight
     ) {
-        final List<T> slotsWithBlocks = new ArrayList<>();
+        final var validSlotsBuilder = new WeightedList.Builder<Integer>();
 
         // Check hotbar and collect all items that can be placed.
-        for (var i = 0; i <= 8; i++) {
-            final var stack = items.get(i);
+        for (var slotIdx = 0; slotIdx < 9; slotIdx++) {
+            final var stack = items.get(slotIdx);
             // Make sure that the item can be placed as a block.
-            if (Block.byItem(stack.getItem()) != Blocks.AIR && !Shuffle.OPTIONS.get().lockedSlots[i]) {
-                slotsWithBlocks.add(createEntry.apply(i, stack));
+            if (Block.byItem(stack.getItem()) != Blocks.AIR && !Shuffle.OPTIONS.get().lockedSlots[slotIdx]) {
+                validSlotsBuilder.add(slotIdx, calculateWeight.apply(slotIdx, stack));
             }
         }
 
-        // Pick a random element if available, otherwise set to -1.
-        return !slotsWithBlocks.isEmpty() ? pickRandom.applyAsInt(slotsWithBlocks, random) : -1;
+        final var validSlots = validSlotsBuilder.build();
+
+        return validSlots.getRandom(random).orElse(-1);
     }
 }

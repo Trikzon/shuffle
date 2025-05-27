@@ -1,7 +1,6 @@
 package com.diontryban.shuffle.client.gui.widgets;
 
 import com.diontryban.ash_api.options.ModOptionsManager;
-import com.diontryban.shuffle.Shuffle;
 import com.diontryban.shuffle.options.ShuffleOptions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
