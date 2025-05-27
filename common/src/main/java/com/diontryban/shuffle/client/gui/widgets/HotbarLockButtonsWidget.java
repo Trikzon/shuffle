@@ -1,6 +1,7 @@
 package com.diontryban.shuffle.client.gui.widgets;
 
 import com.diontryban.ash_api.options.ModOptionsManager;
+import com.diontryban.shuffle.Shuffle;
 import com.diontryban.shuffle.options.ShuffleOptions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -11,6 +12,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
+import org.jetbrains.annotations.NotNull;
 
 public class HotbarLockButtonsWidget extends AbstractWidget {
     private final ModOptionsManager<ShuffleOptions> options;
@@ -79,12 +81,15 @@ public class HotbarLockButtonsWidget extends AbstractWidget {
     }
 
     @Override
-    protected boolean clicked(double mouseX, double mouseY) {
-        return this.active && this.visible && mouseX >= (double)this.getSlotX(0) && mouseY >= (double)this.getY() && mouseX < (double)(this.getSlotX(0) + this.getWidth()) && mouseY < (double)(this.getY() + this.getHeight());
+    public boolean isMouseOver(double mouseX, double mouseY) {
+        var withinX = mouseX >= (double)this.getSlotX(0) && mouseX < (double)(this.getSlotX(0) + this.getWidth());
+        var withinY = mouseY >= (double)this.getY() && mouseY < (double)(this.getY() + this.getHeight());
+
+        return this.active && this.visible && withinX && withinY;
     }
 
     @Override
-    protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
+    protected void updateWidgetNarration(@NotNull NarrationElementOutput narrationElementOutput) {
     }
 
     private int getSlotX(int slot) {
